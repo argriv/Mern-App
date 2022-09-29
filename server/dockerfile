@@ -1,0 +1,24 @@
+FROM node:17.0.1
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+# TODO: сделать что-то с common module source files
+
+# RUN npm install
+# в зависимости от NODE_ENV будет или не будет ставить dev зависимости
+RUN npm ci --force
+
+# Bundle app source
+COPY . .
+
+
+ARG BACKEND_API_PORT
+EXPOSE ${BACKEND_API_PORT}
+
+CMD [ "node", "app.js" ]
